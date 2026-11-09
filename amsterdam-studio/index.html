@@ -1,0 +1,1064 @@
+<title>Amsterdam Stüdyo Avı</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one column like a rental search page — filter bar on top, then channel fit, live searches, provider ledger, timeline track, listing check, tracker. */
+:root{
+  --bg:#F2F6F5; --surface:#FFFFFF; --sunk:#E7EEEC;
+  --ink:#10302B; --muted:#56706A; --line:#D3DFDB;
+  --canal:#1D5B54; --canal-soft:#DCEBE7;
+  --signal:#D9461F; --on-signal:#FFFFFF;
+  --good:#24764A; --good-bg:#E0F1E7;
+  --warn:#9A5F0E; --warn-bg:#FBEFD9;
+  --bad:#AE2F22; --bad-bg:#FBE3DF;
+  --info:#285C8F; --info-bg:#E2ECF7;
+  --font-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body:"IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1917; --surface:#14231F; --sunk:#0A1412;
+    --ink:#E3EEEA; --muted:#93AAA4; --line:#26403B;
+    --canal:#6CC3B4; --canal-soft:#173A35;
+    --signal:#FF7448; --on-signal:#1A0B05;
+    --good:#62C98F; --good-bg:#12301F;
+    --warn:#E6AE52; --warn-bg:#33260E;
+    --bad:#F2806F; --bad-bg:#3A1712;
+    --info:#86B6E8; --info-bg:#132A40;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1917; --surface:#14231F; --sunk:#0A1412;
+  --ink:#E3EEEA; --muted:#93AAA4; --line:#26403B;
+  --canal:#6CC3B4; --canal-soft:#173A35;
+  --signal:#FF7448; --on-signal:#1A0B05;
+  --good:#62C98F; --good-bg:#12301F;
+  --warn:#E6AE52; --warn-bg:#33260E;
+  --bad:#F2806F; --bad-bg:#3A1712;
+  --info:#86B6E8; --info-bg:#132A40;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--canal)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(30px,5.2vw,48px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(22px,3vw,28px);font-weight:800;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* Header */
+.top{padding-block:28px 18px;display:grid;gap:14px}
+.brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sign{display:inline-flex;align-items:center;gap:8px;background:var(--signal);color:var(--on-signal);font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:.12em;padding:5px 10px;border-radius:4px;transform:rotate(-2deg)}
+.sign::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--on-signal);opacity:.85}
+.lead{max-width:62ch;font-size:16.5px}
+.honest{max-width:75ch;font-size:13.5px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+
+/* Sticky nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.nav .wrap::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;color:var(--ink);font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px}
+.nav a:hover{background:var(--sunk)}
+
+/* Filter bar */
+.filters{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px 16px;align-items:end;margin-top:18px}
+.field{display:grid;gap:6px;min-width:0}
+.field label,.field .lbl{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+input[type=date],input[type=number],input[type=text],input[type=url],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+textarea{resize:vertical;min-height:110px;font-size:14px}
+input[type=range]{width:100%;accent-color:var(--canal)}
+.budgetval{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.budgetval output{font-family:var(--font-mono);font-weight:500;font-size:18px;color:var(--ink)}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;padding-bottom:8px}
+.check input{width:18px;height:18px;accent-color:var(--canal)}
+
+/* Summary strip */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:14px}
+.strip > div{background:var(--surface);padding:12px 16px;display:grid;gap:2px;min-width:0}
+.strip .big{font-family:var(--font-display);font-weight:800;font-size:24px;line-height:1.2}
+.strip .big.num{font-family:var(--font-mono);font-weight:500}
+
+section{padding-block:40px 8px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 56px)}
+.sechead{display:grid;gap:6px;margin-bottom:18px;max-width:75ch}
+
+/* Pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap;background:var(--sunk);color:var(--muted)}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.good{background:var(--good-bg);color:var(--good)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.pill.info{background:var(--info-bg);color:var(--info)}
+.pill.now{background:var(--signal);color:var(--on-signal)}
+
+/* Tiers */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;align-content:start}
+.tier .head{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.tier .range{font-family:var(--font-mono);font-size:20px;font-weight:500}
+.bar{position:relative;height:8px;background:var(--sunk);border-radius:4px}
+.bar .seg{position:absolute;top:0;bottom:0;background:var(--canal);opacity:.55;border-radius:4px}
+.bar .mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--signal)}
+.scale{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13.5px}
+dl.kv dt{color:var(--muted)}
+dl.kv dd{margin:0;min-width:0}
+
+/* Platforms */
+.plats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.plat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;grid-template-rows:auto auto 1fr auto}
+.plat .head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--font-mono);font-size:11.5px;padding:2px 8px;border-radius:4px;border:1px solid var(--line);color:var(--muted)}
+.chip.on{border-color:var(--canal);color:var(--canal);background:var(--canal-soft)}
+.go{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:600;font-size:14px;padding:9px 14px;border-radius:8px;border:1px solid var(--canal);background:var(--canal);color:var(--bg);text-decoration:none;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--canal)}
+.btn.small{font-size:13px;padding:6px 10px}
+.btn.danger{border-color:var(--bad);color:var(--bad);background:transparent}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.url{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);word-break:break-all}
+.callout{background:var(--canal-soft);border-radius:var(--r);padding:12px 14px;font-size:14px;margin-top:14px}
+
+/* Providers */
+.ptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.seg-btns{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-wrap:wrap}
+.seg-btns button{font:inherit;font-size:13px;background:transparent;color:var(--ink);border:0;padding:6px 12px;cursor:pointer}
+.seg-btns button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.provs{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.prov{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;align-content:start}
+.prov.closed{opacity:.72}
+.prov .head{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.prov .area{font-size:13px;color:var(--muted)}
+.prov .price{font-family:var(--font-mono);font-size:18px;font-weight:500}
+.prov .note{font-size:13.5px}
+.prov .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:10px}
+.empty{padding:20px;border:1px dashed var(--line);border-radius:var(--r);color:var(--muted);text-align:center}
+
+/* Timeline */
+.track{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:step}
+.track li{display:grid;grid-template-columns:132px 18px 1fr;gap:0 14px;position:relative}
+.track .when{font-family:var(--font-mono);font-size:12px;color:var(--muted);padding-top:3px;text-align:right}
+.track .rail{position:relative}
+.track .rail::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--line)}
+.track li:first-child .rail::before{top:10px}
+.track li:last-child .rail::before{bottom:calc(100% - 10px)}
+.track .dot{position:absolute;left:3px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
+.track li.now .dot{background:var(--signal);border-color:var(--signal);box-shadow:0 0 0 4px color-mix(in srgb,var(--signal) 25%,transparent)}
+.track li.done .dot{background:var(--muted)}
+.track .body{padding-bottom:22px;display:grid;gap:4px;min-width:0}
+.track li.done .body h3{color:var(--muted)}
+.track .body p{font-size:14px;max-width:70ch}
+@media (max-width:560px){
+  .track li{grid-template-columns:18px 1fr}
+  .track .when{grid-column:2;grid-row:1;text-align:left;padding-top:0}
+  .track .rail{grid-column:1;grid-row:1 / span 2}
+  .track .body{grid-column:2;grid-row:2}
+}
+
+/* Checker */
+.checker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:800px){.checker{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.flags{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.flags li{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;font-size:14px}
+.flags li .pill{grid-row:span 2}
+.flags li b{font-weight:600}
+.flags li span.d{color:var(--muted);font-size:13px;grid-column:2}
+.m2scale{display:grid;gap:4px}
+.ai-out{white-space:pre-wrap;font-size:14px;background:var(--sunk);border-radius:8px;padding:12px;min-height:60px;overflow-wrap:anywhere}
+
+/* Tracker */
+.tform{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end}
+.tform .wide{grid-column:1 / -1}
+.tcounts{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px}
+.tlist{display:grid;gap:8px}
+.trow{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;grid-template-columns:minmax(0,2fr) auto minmax(140px,1fr) auto;gap:8px 14px;align-items:center}
+.trow .name{font-weight:600;overflow-wrap:anywhere}
+.trow .meta{font-size:12.5px;color:var(--muted)}
+.trow select{padding:6px 8px;font-size:13px}
+.trow .note{grid-column:1 / -1;font-size:13px;color:var(--muted)}
+@media (max-width:640px){.trow{grid-template-columns:minmax(0,1fr) auto}.trow .facts{grid-column:1 / -1}}
+.status-line{font-size:13px;color:var(--muted);min-height:1em}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;z-index:20;max-width:calc(100% - 32px)}
+
+/* Sources */
+.sources{columns:2 320px;column-gap:28px;font-size:13px;padding-left:18px;margin:0}
+.sources li{break-inside:avoid;margin-bottom:6px}
+footer{padding-block:28px 40px;color:var(--muted);font-size:13px}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <span class="sign" aria-hidden="true">TE HUUR</span>
+      <span class="eyebrow">Amsterdam · 2027–28 akademik yılı · tek kişilik stüdyo</span>
+    </div>
+    <h1>Amsterdam'da tek kişilik stüdyo</h1>
+    <p class="lead">Gerçek sağlayıcılar, sitelerin kendi canlı sonuçlarına giden filtreli aramalar ve taşınma tarihine göre kurulan bir takvim. Filtreleri değiştirdiğinizde sayfanın tamamı güncellenir.</p>
+    <p class="honest">Bu sayfa ilanları kendisi çekmez. Arama linkleri Pararius, Funda, Kamernet gibi sitelerin o anki canlı sonuçlarını açar. Sağlayıcı fiyatları Kasım 2026'da kaynaklardan derlendi; başvurmadan önce sitede doğrulayın.</p>
+  </header>
+</div>
+
+<nav class="nav" aria-label="Bölümler">
+  <div class="wrap">
+    <a href="#kanallar">Bütçe</a>
+    <a href="#ara">Canlı arama</a>
+    <a href="#saglayicilar">Sağlayıcılar</a>
+    <a href="#takvim">Takvim</a>
+    <a href="#kontrol">İlan kontrolü</a>
+    <a href="#takip">Takip listesi</a>
+    <a href="#kaynaklar">Kaynaklar</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <form class="filters" id="filters" autocomplete="off">
+    <div class="field">
+      <label for="f-move">Taşınma tarihi</label>
+      <input type="date" id="f-move" required>
+    </div>
+    <div class="field">
+      <div class="budgetval"><label for="f-budget">Aylık bütçe (her şey dahil)</label><output id="o-budget" for="f-budget">€1.300</output></div>
+      <input type="range" id="f-budget" min="500" max="2500" step="25">
+    </div>
+    <div class="field">
+      <label for="f-m2">En az m²</label>
+      <input type="number" id="f-m2" min="0" max="80" step="1" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label for="f-furn">Eşya</label>
+      <select id="f-furn">
+        <option value="any">Fark etmez</option>
+        <option value="furnished">Eşyalı (gemeubileerd)</option>
+        <option value="upholstered">Yarı eşyalı (gestoffeerd)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="f-city">Şehir</label>
+      <select id="f-city"></select>
+    </div>
+    <label class="check" for="f-studio"><input type="checkbox" id="f-studio"> Yalnızca "studio" etiketli ilanlar</label>
+  </form>
+
+  <div class="strip" aria-live="polite">
+    <div><span class="eyebrow">Taşınmaya</span><span class="big num" id="s-days">–</span><span class="small muted" id="s-date"></span></div>
+    <div><span class="eyebrow">Şu anki aşama</span><span class="big" id="s-phase">–</span><span class="small muted" id="s-phase-d"></span></div>
+    <div><span class="eyebrow">Bütçenin yettiği kanallar</span><span class="big num" id="s-tiers">–</span><span class="small muted" id="s-tiers-d"></span></div>
+    <div><span class="eyebrow">Ulaşım (seçili şehir)</span><span class="big" id="s-city">–</span><span class="small muted" id="s-commute"></span></div>
+  </div>
+
+  <section id="kanallar">
+    <div class="sechead">
+      <span class="eyebrow">01 · Gerçekçi tablo</span>
+      <h2>Bütçen hangi kanala yetiyor</h2>
+      <p class="muted">Amsterdam'da stüdyoya üç yoldan ulaşılıyor. Kırmızı çizgi senin bütçen. "Şans" sütunu kaynaklara dayanan bizim değerlendirmemizdir, ölçülmüş bir oran değildir.</p>
+    </div>
+    <div class="tiers" id="tiers"></div>
+  </section>
+
+  <section id="ara">
+    <div class="sechead">
+      <span class="eyebrow">02 · Canlı ilanlar</span>
+      <h2>Filtreli arama linkleri</h2>
+      <p class="muted">Her kart, yukarıdaki filtreleri sitenin kendi adres yapısına çevirir. Yeşil etiketler linke işlenen filtrelerdir; gri olanları sitede elle seçin. Sayfa açılınca filtreleri bir kez kontrol edin.</p>
+    </div>
+    <div class="plats" id="plats"></div>
+    <p class="callout"><b>Neden şimdi kiralanmaz:</b> Bugün yayında olan ilanların çoğu Aralık–Şubat taşınması içindir. Eylül 2027 için serbest piyasa ilanları genelde Temmuz–Ağustos'ta çıkar. Şimdi bu linklere e-posta alarmı kurun: amaç fiyatları ve ilanların ne kadar hızlı kapandığını öğrenmek.</p>
+  </section>
+
+  <section id="saglayicilar">
+    <div class="sechead">
+      <span class="eyebrow">03 · Bilinen sağlayıcılar</span>
+      <h2>Öğrenci stüdyosu sunan binalar ve kurumlar</h2>
+      <p class="muted">Fiyatlar kaynakta belirtildiği haliyle. "Tahmini" yazanlar üçüncü taraf kaynaktan, çelişkili olanlar ayrıca işaretli. Her karttan takip listesine ekleyebilirsiniz.</p>
+    </div>
+    <div class="ptools">
+      <div class="seg-btns" role="group" aria-label="Sağlayıcı filtresi" id="p-filter">
+        <button type="button" data-f="all" aria-pressed="true">Tümü</button>
+        <button type="button" data-f="fit" aria-pressed="false">Bütçeye uyanlar</button>
+        <button type="button" data-f="reg" aria-pressed="false">Kura / kayıt</button>
+        <button type="button" data-f="com" aria-pressed="false">Doğrudan kiralama</button>
+      </div>
+      <label class="check" for="p-hideclosed" style="padding:0"><input type="checkbox" id="p-hideclosed"> Uygun olmayanları gizle</label>
+    </div>
+    <div class="provs" id="provs"></div>
+  </section>
+
+  <section id="takvim">
+    <div class="sechead">
+      <span class="eyebrow">04 · Takvim</span>
+      <h2>Taşınma tarihine göre ne zaman ne yapılmalı</h2>
+      <p class="muted">Tarihler yukarıdaki taşınma tarihinden geriye doğru hesaplanır. Turuncu nokta bugünün aşaması.</p>
+    </div>
+    <ol class="track" id="track"></ol>
+  </section>
+
+  <section id="kontrol">
+    <div class="sechead">
+      <span class="eyebrow">05 · İlan kontrolü</span>
+      <h2>Bir ilanı göndermeden önce kontrol et</h2>
+      <p class="muted">İlanın bilgilerini girin. Soldaki otomatik kontroller anında çalışır; isterseniz aynı bilgileri Claude'a da değerlendirtebilirsiniz.</p>
+    </div>
+    <div class="checker">
+      <form class="panel" id="c-form" autocomplete="off">
+        <div class="grid2">
+          <div class="field"><label for="c-rent">İstenen kira (€/ay)</label><input type="number" id="c-rent" min="0" step="10" inputmode="numeric" value="1450"></div>
+          <div class="field"><label for="c-m2">Alan (m²)</label><input type="number" id="c-m2" min="0" step="1" inputmode="numeric" value="24"></div>
+          <div class="field"><label for="c-dep">Depozito (€)</label><input type="number" id="c-dep" min="0" step="10" inputmode="numeric" value="4350"></div>
+          <div class="field"><label for="c-incl">Kira neyi kapsıyor</label>
+            <select id="c-incl"><option value="kale">Yalnız kira (kale huur)</option><option value="all">Faturalar dahil</option><option value="unknown">Belirtilmemiş</option></select></div>
+          <div class="field"><label for="c-reg">Adres kaydı (BRP) mümkün mü</label>
+            <select id="c-reg"><option value="unknown">Belirtilmemiş</option><option value="yes">Evet</option><option value="no">Hayır</option></select></div>
+          <div class="field"><label for="c-self">Kendi kapısı, mutfağı, tuvaleti var mı</label>
+            <select id="c-self"><option value="unknown">Belirtilmemiş</option><option value="yes">Evet (zelfstandig)</option><option value="no">Hayır, ortak</option></select></div>
+        </div>
+        <div class="field"><label for="c-text">İlan metni veya ev sahibinin mesajı</label>
+          <textarea id="c-text">Beautiful furnished studio in Amsterdam Oud-West, 24 m2, available from 1 September. I am currently working abroad so viewing is not possible, but I can send the keys by post after you pay the deposit. Registration not possible.</textarea></div>
+        <p class="small muted">Örnek bir dolandırıcılık mesajı yüklendi; kendi ilanınızla değiştirin.</p>
+      </form>
+      <div class="panel">
+        <div class="m2scale" id="c-m2box"></div>
+        <ul class="flags" id="c-flags"></ul>
+        <div style="display:grid;gap:8px" id="ai-box">
+          <div class="go">
+            <button type="button" class="btn" id="ai-btn" disabled>Claude'a değerlendirt</button>
+            <button type="button" class="btn ghost small" id="ai-stop" hidden>Durdur</button>
+            <span class="small muted" id="ai-note">Hazırlanıyor…</span>
+          </div>
+          <div class="ai-out" id="ai-out" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="takip">
+    <div class="sechead">
+      <span class="eyebrow">06 · Takip listesi</span>
+      <h2>Başvurular ve izlenen ilanlar</h2>
+      <p class="muted" id="t-where">Liste yükleniyor…</p>
+    </div>
+    <form class="panel tform" id="t-form" autocomplete="off">
+      <div class="field"><label for="t-name">Ad / adres</label><input type="text" id="t-name" required placeholder="ör. Studio Kinkerstraat"></div>
+      <div class="field"><label for="t-url">Link</label><input type="url" id="t-url" placeholder="https://"></div>
+      <div class="field"><label for="t-rent">Kira (€/ay)</label><input type="number" id="t-rent" min="0" step="10" inputmode="numeric"></div>
+      <div class="field"><label for="t-m2">m²</label><input type="number" id="t-m2" min="0" step="1" inputmode="numeric"></div>
+      <div class="field"><label for="t-status">Durum</label><select id="t-status"></select></div>
+      <div class="field"><label for="t-due">Son tarih</label><input type="date" id="t-due"></div>
+      <div class="field wide"><label for="t-note">Not</label><input type="text" id="t-note" placeholder="ör. görüntüleme Salı 18:00, garantör belgesi istendi"></div>
+      <div><button class="btn" type="submit" id="t-add">Listeye ekle</button></div>
+    </form>
+    <div class="tcounts" id="t-counts"></div>
+    <p class="status-line" id="t-status-line" role="status"></p>
+    <div class="tlist" id="t-list"></div>
+  </section>
+
+  <section id="kaynaklar">
+    <div class="sechead">
+      <span class="eyebrow">Kaynaklar</span>
+      <h2>Rakamlar nereden geliyor</h2>
+      <p class="muted">Kasım 2026 itibarıyla arama sonuçlarından derlendi. Sağlayıcı sayfaları sık değişir; fiyat ve tarihleri başvurmadan önce sitede kontrol edin.</p>
+    </div>
+    <ul class="sources" id="sources"></ul>
+  </section>
+
+  <footer>Yasal konular (kira tavanı, depozito, huurtoeslag) genel bilgidir. Belirli bir sözleşme için Huurcommissie veya bir kiracı danışmanlığına başvurun. Dolandırıldığınızı düşünüyorsanız bankanızı hemen arayın, Politie.nl ve Fraudehelpdesk.nl'e bildirin.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const eur = n => "€" + Math.round(n).toLocaleString("nl-NL");
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+let toastTimer = null;
+function toast(msg){
+  let t = $("#toast");
+  if (!t){ t = document.createElement("div"); t.id = "toast"; t.className = "toast"; t.setAttribute("role","status"); document.body.appendChild(t); }
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+}
+
+/* ---------- Data ---------- */
+const CITIES = {
+  amsterdam:  { label:"Amsterdam",  pararius:"amsterdam",  funda:"amsterdam",  kamernet:"amsterdam",  ha:"Amsterdam",  hw:"amsterdam",  commute:"Şehir içi", commuteD:"Bisiklet + tramvay/metro. Okula 30 dk içinde kalan semtler öncelikli." },
+  amstelveen: { label:"Amstelveen", pararius:"amstelveen", funda:"amstelveen", kamernet:"amstelveen", ha:"Amstelveen", hw:"amstelveen", commute:"~15–20 dk", commuteD:"Tramvay 25 ile Amsterdam Zuid'e, yaklaşık. VU ve Zuidas'a yakın." },
+  diemen:     { label:"Diemen",     pararius:"diemen",     funda:"diemen",     kamernet:"diemen",     ha:"Diemen",     hw:"diemen",     commute:"~10–15 dk", commuteD:"Tren/metro ile merkeze, yaklaşık. UvA Science Park'a bisikletle yakın." },
+  zaandam:    { label:"Zaandam",    pararius:"zaandam",    funda:"zaandam",    kamernet:"zaandam",    ha:"Zaanstad",   hw:"zaandam",    commute:"~10–15 dk", commuteD:"Trenle Amsterdam Centraal'e, yaklaşık." },
+  haarlem:    { label:"Haarlem",    pararius:"haarlem",    funda:"haarlem",    kamernet:"haarlem",    ha:"Haarlem",    hw:"haarlem",    commute:"~15–20 dk", commuteD:"Trenle Centraal veya Sloterdijk'e, yaklaşık. Tren bileti aylık bütçeye eklenmeli." },
+  almere:     { label:"Almere",     pararius:"almere",     funda:"almere",     kamernet:"almere",     ha:"Almere",     hw:"almere",     commute:"~25–35 dk", commuteD:"Trenle Centraal veya Zuid'e, yaklaşık. Daha ucuz, ama günlük yol uzun." }
+};
+
+const TIERS = [
+  { key:"reg", name:"Uygun fiyatlı öğrenci stüdyosu", min:630, max:900,
+    who:"ROOM.nl (DUWO, SSH, Ymere…), Student Experience Amstel ve NDSM",
+    price:"~21 m², kira + servis bedeli", access:"Kayıt süresi veya kura",
+    odds:"Düşük", oddsCls:"bad",
+    note:"En ucuz yol, ama şansa bağlı. Amsterdam'da kayıt süresiyle oda almak yıllar sürüyor; asıl fırsat kura ilanları." },
+  { key:"com", name:"Ticari öğrenci binası", min:950, max:2100,
+    who:"OurDomain, Xior, HiCondo, Holland2Stay, Plaza, The Social Hub, Student Experience Minervahaven",
+    price:"Çoğunlukla eşyalı, faturalar dahil", access:"Rezervasyon, ilk gelen alır",
+    odds:"Orta–yüksek, erken başvuruda", oddsCls:"good",
+    note:"Dorm hissi vermeyen, kendine ait stüdyo + ortak alanlar. m² başına pahalı ve popüler binalar erken doluyor." },
+  { key:"pvt", name:"Serbest piyasa stüdyosu", min:700, max:2200,
+    who:"Pararius, Funda, Kamernet, Huurwoningen, HousingAnywhere",
+    price:"Kamernet ortalaması ~€1.143; Zuidoost'taki yeni komplekslerde €700'lü stüdyolar da var", access:"İlan bazlı, taşınmadan 2–8 hafta önce",
+    odds:"Orta, yoğun rekabet", oddsCls:"warn",
+    note:"En geniş seçenek, en yüksek dolandırıcılık riski. Görmeden ödeme ve \"adres kaydı yok\" şartı kabul edilmemeli." }
+];
+
+const PROVIDERS = [
+  { name:"ROOM.nl", area:"Amsterdam bölgesi (portal)", cat:"reg", min:550, max:900, est:true,
+    price:"Stüdyolar genelde ~€550–900", size:"Değişken",
+    access:"Kayıt süresi; bazı ilanlar kura (loting)", incl:"İlana göre",
+    status:{cls:"now", t:"Hemen kayıt ol"},
+    note:"DUWO, SSH, Ymere gibi kâr amacı gütmeyen ev sahiplerinin ilanları. Tek seferlik kayıt ücreti ~€35 (UvA'ya göre). HvA ortalama bekleme süresini 2–3 yıl olarak veriyor; her ilanda kura mı kayıt süresi mi olduğu yazıyor.",
+    url:"https://www.room.nl/", src:"UvA, HvA" },
+  { name:"Student Experience Amstel", area:"Amsterdam, Amstel", cat:"reg", min:674, max:null,
+    price:"€674'ten başlar + servis bedeli", size:"21 m²",
+    access:"Otomatik kura", incl:"Servis bedeli ayrı",
+    status:{cls:"info", t:"2027–28 kurasını takip et"},
+    note:"Kira, devletin puan sistemine bağlı (düzenlenmiş). Kayıtlı öğrenci olma şartı var.",
+    url:"https://studentexperience.com/locations/amsterdam-amstel", src:"studentexperience.com" },
+  { name:"Student Experience NDSM", area:"Amsterdam Noord, NDSM", cat:"reg", min:null, max:null,
+    price:"Boyuta göre değişiyor; tablo sitede", size:"21–31 m² · 403 stüdyo",
+    access:"Otomatik kura", incl:"Sitede",
+    status:{cls:"info", t:"2027–28 kurasını takip et"},
+    note:"Kendine ait stüdyolar. Fiyat tablosunu doğrulayamadık; sitede bakın.",
+    url:"https://studentexperience.com/locations/amsterdam-ndsm", src:"studentexperience.com" },
+  { name:"Student Experience Minervahaven", area:"Amsterdam West, Minervahaven", cat:"com", min:1550, max:2099,
+    price:"€1.550–2.099", size:"20–45 m², eşyalı",
+    access:"İlk gelen alır", incl:"KDV, faturalar, Wi-Fi, belediye vergileri, 2 haftada bir temizlik",
+    status:{cls:"warn", t:"Bütçeyi zorlar"},
+    note:"Sayfalarda fiyatlar çelişiyor (bir sayfa €1.550'den, diğeri €1.849–2.099 diyor) ve 6 aylık süre notu var. Uzun dönem koşullarını sorun.",
+    url:"https://studentexperience.com/locations/amsterdam-minervahaven", src:"studentexperience.com" },
+  { name:"Student Experience Zuidas", area:"Amsterdam Zuid, Zuidas", cat:"reg", min:628, max:null, closed:true,
+    price:"€628'den başlıyordu", size:"~21 m²",
+    access:"Otomatik kura", incl:"Servis bedeli ayrı",
+    status:{cls:"bad", t:"Uygun değil: 30 Haz 2027'de kapanıyor"},
+    note:"Bina yıkılacak. Bir sayfa sözleşmelerin daha da erken bittiğini söylüyor. 2027–28 için seçenek değil.",
+    url:"https://studentexperience.com/locations/amsterdam-zuidas", src:"studentexperience.com" },
+  { name:"Xior Naritaweg / Barajasweg", area:"Amsterdam West, Sloterdijk–Teleport", cat:"com", min:1572, max:1601,
+    price:"~€1.337–1.344 + €235–257 ek", size:"26–29 m² · 247 stüdyo",
+    access:"Rezervasyon", incl:"Ekler: enerji, servis, internet/TV, çamaşır, mobilya",
+    status:{cls:"warn", t:"Fiyat çelişkili; görüldüğünde doluydu"},
+    note:"Xior sayfası tarihsiz. Başka bir ilan sitesi €995 + €43 servis gösteriyor. 2027–28 fiyatını Xior'a e-postayla sorun.",
+    url:"https://www.xior.be/en/room/484/naritaweg-139-149-naritaweg-151-161-barajasweg-60-70", src:"xior.be, luntero.com" },
+  { name:"Xior Hoptillepad & Horstenberg", area:"Amsterdam Zuidoost", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"Bulunamadı",
+    access:"Rezervasyon", incl:"Bulunamadı",
+    status:{cls:"info", t:"Bilgi iste"},
+    note:"Xior'un Amsterdam listesinde görünüyor; ayrıntıları doğrulayamadık.",
+    url:"https://www.xior.be/en/room/501/hoptillepad-and-horstenberg", src:"xior.be" },
+  { name:"OurDomain Amsterdam South East", area:"Amsterdam Zuidoost, Bijlmer", cat:"com", min:950, max:1250, est:true,
+    price:"~€950–1.250 (2025 tahmini)", size:"Stüdyo",
+    access:"Rezervasyon", incl:"Çoğunlukla faturalar, Wi-Fi, eşya; ~€100 rezervasyon ücreti",
+    status:{cls:"good", t:"Bütçeye yakın"},
+    note:"Öğrenci ve genç profesyonellerin karıştığı büyük kompleks. Fiyatlar üçüncü taraf tahmini; güncel fiyatı sitede kontrol edin.",
+    url:"https://www.thisisourdomain.nl/", src:"renthunter.nl, ONCAMPUS" },
+  { name:"OurDomain Diemen", area:"Diemen", cat:"com", min:900, max:1150, est:true,
+    price:"~€900–1.150 (2025 tahmini)", size:"Stüdyo",
+    access:"Rezervasyon", incl:"Çoğunlukla faturalar, Wi-Fi, eşya",
+    status:{cls:"good", t:"Bütçeye yakın"},
+    note:"Amsterdam sınırının hemen dışında; merkeze tren/metro ile kısa mesafe.",
+    url:"https://www.thisisourdomain.nl/", src:"renthunter.nl" },
+  { name:"The Social Hub (City, West)", area:"Amsterdam merkez ve West", cat:"com", min:null, max:null,
+    price:"Fiyat yayınlanmamış", size:"Oda/stüdyo, özel banyolu",
+    access:"Rezervasyon; 5/10/11/12 aylık", incl:"Oda, banyo, faturalar, Wi-Fi, spor salonu, temizlik",
+    status:{cls:"warn", t:"2026–27 West doldu"},
+    note:"OnCampus'a göre West 2026–27 dönemi için dolu. Eski bir belgede stüdyo €1.000–1.300 görünüyor ama yılı belirsiz.",
+    url:"https://www.thesocialhub.co/amsterdam-city/student-stay/", src:"thesocialhub.co, OnCampus" },
+  { name:"DUWO Sluisbuurt (yalnız Inholland)", area:"Amsterdam Oost, Sluisbuurt", cat:"reg", min:645, max:764, school:true,
+    price:"€645–764, faturalar dahil", size:"~21 m², eşyalı",
+    access:"Inholland üzerinden, ilk gelen alır", incl:"Faturalar dahil",
+    status:{cls:"info", t:"Yalnız Inholland öğrencilerine"},
+    note:"2026–27 başvuruları 15 Mayıs'ta açıldı. Kızınız Inholland'da değilse bu kart geçersiz.",
+    url:"https://www.inholland.nl/inhollandcom/student-life-and-housing/student-housing/amsterdam/degree-seekers", src:"inholland.nl" },
+  { name:"De Key", area:"Amsterdam ve Diemen", cat:"reg", min:null, max:null,
+    price:"Bulunamadı", size:"Oda ve stüdyo",
+    access:"Sitede kontrol et", incl:"Bulunamadı",
+    status:{cls:"info", t:"Bilgi iste"},
+    note:"Amsterdam'ın büyük kâr amacı gütmeyen öğrenci ev sahiplerinden. Güncel başvuru yolunu doğrulayamadık.",
+    url:"https://www.dekey.nl/", src:"dekey (guestcompass)" },
+  { name:"HiCondo", area:"Amsterdam Zuidoost, Arena Boulevard yakını", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"300+ stüdyo, eşyasız",
+    access:"Doğrudan kiralama, en az 1 yıl", incl:"Eşya yok; mobilya size ait",
+    status:{cls:"bad", t:"Haz 2026: belediye kira indirimi emretti"},
+    note:"Belediye denetimi yüzlerce öğrenciden yasa dışı yüksek kira alındığını tespit etti; yüksek depozito ve belirsiz servis bedelleri de eleştirildi. Sonraki habere göre 350 kiracıdan yalnız 7'sine indirim yapıldı. Hâlâ bir seçenek olabilir, ama imzadan önce kirayı Huurcommissie aracıyla kontrol edin ve mobilya masrafını bütçeye ekleyin.",
+    url:"https://nltimes.nl/2026/06/30/amsterdam-orders-student-housing-landlord-lower-rents-illegal-overcharges-found", linkLabel:"Habere git", src:"NL Times, NH Nieuws, Wittenborg, Luntero" },
+  { name:"Holland2Stay", area:"Amsterdam: Buitenveldert, Java Eiland, Sloten", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"Örnek: 22 m², eşyalı, yalnız öğrenci",
+    access:"Doğrudan kiralama; gelir şartı var", incl:"Eşyalı",
+    status:{cls:"info", t:"İlanları izle"},
+    note:"Öğrenci ve genç profesyonellere eşyalı stüdyolar; bazıları yalnız öğrencilere. Mayıs 2026'dan beri Java Eiland ve Sloten'de 205 konutu da yönetiyor. Gelir şartının veli garantörlüğüyle karşılanıp karşılanmadığını sorun.",
+    url:"https://www.holland2stay.com/", src:"holland2stay.com, Wittenborg" },
+  { name:"Plaza (6 kompleks)", area:"Amsterdam: Zuidoost, Sloterdijk ve diğerleri", cat:"com", min:null, max:null,
+    price:"Fiyatlar kompleks sayfalarında", size:"Ör. Hillside 233 stüdyo, Two Sisters 599 stüdyo",
+    access:"Doğrudan kiralama; bildirim listesi", incl:"Komplekse göre eşyalı veya eşyasız",
+    status:{cls:"info", t:"Bildirime kaydol"},
+    note:"WASA Student Village (öğrenci, eşyalı), Hillside (Zuidoost, eşyasız), De Flier (eşyalı), Rijswijkstraat (eşyasız, çatı terası), Meibergdreef ve yakında açılacak Two Sisters (Sloterdijk, eşyalı). WASA sayfasında şu an boş yer görünmüyordu.",
+    url:"https://plaza.newnewnew.space/en/our-complexes/amsterdam", src:"plaza.newnewnew.space" },
+  { name:"Change=", area:"Amsterdam Zuidoost", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"~600 daire (2017 duyurusu)",
+    access:"Doğrudan kiralama; yaş sınırı olabilir", incl:"Her şey dahil; özel banyo ve mutfak",
+    status:{cls:"info", t:"Öğrenci kabul ediyor mu, sor"},
+    note:"18–30 yaş arası çalışan gençlere yönelik bir konsept olarak duyurulmuştu; Wittenborg öğrencileri de kabul ettiğini yazıyor. Güncel bilgiyi doğrulayamadık; resmi sitenin change-is.com olduğu belirtiliyor.",
+    url:"https://www.capitalvalue.nl/en/news/change=-realises-600-apartments-in-amsterdam-zuidoost", linkLabel:"Kaynağa git", src:"Capital Value, Wittenborg" },
+  { name:"Sayhaey Spinoza", area:"Amsterdam Zuidoost, DUWO Spinoza kampüsü yanı", cat:"com", min:679, max:693,
+    price:"€679–693'ten", size:"~23 m² · 311 tek kişilik daire",
+    access:"İlan üzerinden; yaş ve gelir şartı olabilir", incl:"Bulunamadı",
+    status:{cls:"good", t:"Bütçeye uygun; şartları kontrol et"},
+    note:"Gençlere yönelik tek kişilik daireler. Bir ilanda 18–28 yaş ve asgari gelir şartı yazıyor, ama kaynaklar bu konuda çelişkili.",
+    url:"https://www.pararius.com/studio-for-rent/amsterdam/8e4cd475/dennenrodepad", linkLabel:"Örnek ilan", src:"Pararius, Huurwoningen" },
+  { name:"Elizabeth Cady Stantonplein stüdyoları", area:"Amsterdam Zuidoost (1102)", cat:"com", min:705, max:767,
+    price:"€705–767 + servis bedeli", size:"Stüdyo",
+    access:"Pararius ve Funda ilanları", incl:"Servis bedeli ayrı",
+    status:{cls:"good", t:"Bütçeye uygun; sokağa alarm kur"},
+    note:"İşletmecisini doğrulayamadık. Pararius ve Funda'da bu adresteki farklı dairelerden stüdyo ilanları çıkıyor; bu sokak için arama alarmı kurmak yeterli.",
+    url:"https://pararius.com/apartment-for-rent/amsterdam/872a61b3/elizabeth-cady-stantonplein", linkLabel:"Örnek ilan", src:"Pararius, Funda" },
+  { name:"Genç + statü sahibi karma kompleksler", area:"Amsterdam geneli (15 kompleks; ör. Stek Oost, Riekerhaven)", cat:"reg", min:null, max:null,
+    price:"Bulunamadı", size:"Bulunamadı",
+    access:"Doğrulanamadı", incl:"Bulunamadı",
+    status:{cls:"info", t:"Başvuru yolunu araştır"},
+    note:"Belediyenin gençlerle oturma izni almış mültecilerin birlikte yaşadığı 15 karma kompleksi var; Riekerhaven'da öğrenciler de kalıyordu. Yaş şartı ve ayrı bir başvuru süreci olabilir.",
+    url:"https://www.nhnieuws.nl/nieuws/311348/amsterdam-wil-andere-verdeling-jongeren-en-statushouders-in-grote-gemengd-wooncomplexen", linkLabel:"Habere git", src:"NH Nieuws" }
+];
+
+const SOURCES = [
+  ["Kamernet, Amsterdam stüdyo sayfası (ortalama ~€1.143)", "https://kamernet.nl/en/for-rent/studio-amsterdam"],
+  ["NH Nieuws: Pararius Q4 2025, Amsterdam €28,68/m²", "https://www.nhnieuws.nl/nieuws/356211/amsterdam-nog-steeds-met-afstand-duurste-stad-huurprijzen-stijgen-met-9-procent"],
+  ["Rijksoverheid: 2026 kira tavanları ve huurtoeslag parametreleri", "https://www.rijksoverheid.nl/actueel/nieuws/2025/11/25/indexering-inkomensgrenzen-woningcorporaties-maximale-huurprijsgrenzen-en-huurtoeslagparameters-2026"],
+  ["Volkshuisvesting Nederland: azami kira sınırları", "https://www.volkshuisvestingnederland.nl/onderwerpen/huren-en-wonen/inkomensgrenzen-huurprijsgrenzen-en-huurtoeslagparameters/maximale-huurprijsgrenzen"],
+  ["Student Experience Amstel", "https://studentexperience.com/locations/amsterdam-amstel"],
+  ["Student Experience NDSM", "https://studentexperience.com/locations/amsterdam-ndsm"],
+  ["Student Experience Minervahaven", "https://studentexperience.com/locations/amsterdam-minervahaven"],
+  ["Student Experience Zuidas (kapanış)", "https://studentexperience.com/locations/amsterdam-zuidas"],
+  ["Student Experience SSS (kura / ilk gelen, belge şartı)", "https://studentexperience.com/faq"],
+  ["Xior Naritaweg / Barajasweg", "https://www.xior.be/en/room/484/naritaweg-139-149-naritaweg-151-161-barajasweg-60-70"],
+  ["RentHunter: OurDomain fiyat tahminleri (2025)", "https://renthunter.nl/?p=12609"],
+  ["OnCampus: The Social Hub Amsterdam West 2026–27", "https://booking.oncampus.global/property/the-social-hub-amsterdam-west/"],
+  ["The Social Hub: Amsterdam öğrenci konaklaması", "https://www.thesocialhub.co/amsterdam-city/student-stay/"],
+  ["Inholland: DUWO Sluisbuurt stüdyoları", "https://www.inholland.nl/inhollandcom/student-life-and-housing/student-housing/amsterdam/degree-seekers"],
+  ["UvA: ROOM.nl kaydı ve ücret", "https://www.uva.nl/onderwijs/praktische-informatie/huisvesting/studentenhuisvesting.html"],
+  ["HvA (Amsterdam UAS): uzun dönem konut, bekleme süresi", "https://amsterdamuas.com/study/international-admissions/housing/longstay-housing"],
+  ["ASVA: UvA konutu yalnız ilk yıl", "https://asva.nl/the-situation-in-amsterdam/"],
+  ["DutchNews (Haziran 2026): uluslararası öğrencilere dolandırıcılık uyarısı", "https://www.dutchnews.nl/2026/06/international-students-face-more-housing-fraud-union-warns/"],
+  ["Huurcommissie", "https://www.huurcommissie.nl/"],
+  ["Fraudehelpdesk", "https://www.fraudehelpdesk.nl/"],
+  ["NL Times (Haz 2026): belediye HiCondo'ya kira indirimi emretti", "https://nltimes.nl/2026/06/30/amsterdam-orders-student-housing-landlord-lower-rents-illegal-overcharges-found"],
+  ["NH Nieuws: denetim sonrası 350 kiracıdan 7'sine indirim", "https://www.nhnieuws.nl/nieuws/363487/operatie-pels-strijd-tegen-huisjesmelkers-amsterdam"],
+  ["Wittenborg: Amsterdam konut sağlayıcıları (HiCondo, Change, Holland2Stay)", "https://www.wittenborg.eu/amsterdam-student-housing.htm"],
+  ["Holland2Stay: Java Eiland ve Sloten yönetimi", "https://www.holland2stay.com/nl/blog/amsterdam-java-eiland-sloten"],
+  ["Plaza: Amsterdam kompleksleri", "https://plaza.newnewnew.space/en/our-complexes/amsterdam"],
+  ["Capital Value: Change= Amsterdam Zuidoost", "https://www.capitalvalue.nl/en/news/change=-realises-600-apartments-in-amsterdam-zuidoost"],
+  ["Pararius: Sayhaey Spinoza ilanı", "https://www.pararius.com/studio-for-rent/amsterdam/8e4cd475/dennenrodepad"],
+  ["Pararius: Elizabeth Cady Stantonplein ilanı", "https://pararius.com/apartment-for-rent/amsterdam/872a61b3/elizabeth-cady-stantonplein"],
+  ["NH Nieuws: genç ve statü sahibi karma kompleksler", "https://www.nhnieuws.nl/nieuws/311348/amsterdam-wil-andere-verdeling-jongeren-en-statushouders-in-grote-gemengd-wooncomplexen"]
+];
+
+const STATUSES = [
+  ["yapilacak","Yapılacak","info"], ["izleniyor","İzleniyor","info"], ["basvuruldu","Başvuruldu","warn"],
+  ["kura","Kurada","warn"], ["gorusme","Görüntüleme","warn"], ["teklif","Teklif geldi","good"], ["olmadi","Olmadı","bad"]
+];
+const STATUS_MAP = Object.fromEntries(STATUSES.map(s => [s[0], s]));
+
+/* ---------- Filters ---------- */
+const DEFAULTS = { move:"2027-09-01", budget:1300, minM2:20, furn:"any", city:"amsterdam", studioOnly:false };
+let S = Object.assign({}, DEFAULTS, store.get("ams-filters", {}));
+if (!CITIES[S.city]) S.city = "amsterdam";
+
+const citySel = $("#f-city");
+citySel.innerHTML = Object.entries(CITIES).map(([k,c]) => `<option value="${k}">${esc(c.label)}</option>`).join("");
+$("#f-move").value = S.move; $("#f-budget").value = S.budget; $("#f-m2").value = S.minM2;
+$("#f-furn").value = S.furn; citySel.value = S.city; $("#f-studio").checked = !!S.studioOnly;
+
+function readFilters(){
+  const mv = $("#f-move").value;
+  S.move = /^\d{4}-\d{2}-\d{2}$/.test(mv) ? mv : DEFAULTS.move;
+  S.budget = Math.max(300, Math.min(5000, parseInt($("#f-budget").value, 10) || DEFAULTS.budget));
+  const m = parseInt($("#f-m2").value, 10);
+  S.minM2 = isNaN(m) ? 0 : Math.max(0, Math.min(200, m));
+  S.furn = $("#f-furn").value; S.city = citySel.value; S.studioOnly = $("#f-studio").checked;
+  store.set("ams-filters", S);
+}
+$("#filters").addEventListener("input", () => { readFilters(); renderAll(); });
+$("#filters").addEventListener("change", () => { readFilters(); renderAll(); });
+$("#filters").addEventListener("submit", e => e.preventDefault());
+
+function moveDate(){ const [y,m,d] = S.move.split("-").map(Number); return new Date(y, m-1, d); }
+function today0(){ const t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
+const addMonths = (d, n) => { const x = new Date(d); x.setMonth(x.getMonth()+n); return x; };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const fmtD = d => d.toLocaleDateString("tr-TR", { day:"numeric", month:"short", year:"numeric" });
+const fmtM = d => d.toLocaleDateString("tr-TR", { month:"short", year:"numeric" });
+
+/* ---------- Summary ---------- */
+function phaseFor(days){
+  if (days <= 0) return ["Taşınma günü geçti", "Taşınma tarihini güncelleyin."];
+  if (days > 240) return ["Hazırlık", "ROOM.nl kaydı, alarmlar, bina listeleri"];
+  if (days > 150) return ["Rezervasyon dönemi", "Ticari binaların açılışlarını kolla"];
+  if (days > 75)  return ["Kura ve belgeler", "Kuralar, belgeler, mevcut sözleşme"];
+  return ["Serbest piyasa", "Günlük arama, hızlı yanıt"];
+}
+function tierFit(t){
+  if (S.budget >= t.max) return ["Bütçeye uygun","good"];
+  if (S.budget >= t.min) return ["Kısmen","warn"];
+  return ["Bütçe altı","bad"];
+}
+function renderSummary(){
+  const mv = moveDate(), days = Math.round((mv - today0()) / 86400000);
+  $("#s-days").textContent = days > 0 ? days + " gün" : "—";
+  $("#s-date").textContent = fmtD(mv);
+  const [p, pd] = phaseFor(days);
+  $("#s-phase").textContent = p; $("#s-phase-d").textContent = pd;
+  const fits = TIERS.filter(t => S.budget >= t.min).length;
+  $("#s-tiers").textContent = fits + " / " + TIERS.length;
+  $("#s-tiers-d").textContent = eur(S.budget) + " / ay ile en ucuz uçlarına göre";
+  $("#o-budget").textContent = eur(S.budget);
+  const c = CITIES[S.city];
+  $("#s-city").textContent = c.label + " · " + c.commute;
+  $("#s-commute").textContent = c.commuteD;
+}
+
+/* ---------- Tiers ---------- */
+const SCALE_MIN = 500, SCALE_MAX = 2500;
+const pct = v => ((Math.max(SCALE_MIN, Math.min(SCALE_MAX, v)) - SCALE_MIN) / (SCALE_MAX - SCALE_MIN) * 100).toFixed(2) + "%";
+function renderTiers(){
+  $("#tiers").innerHTML = TIERS.map(t => {
+    const [fl, fc] = tierFit(t);
+    const w = ((Math.min(t.max, SCALE_MAX) - Math.max(t.min, SCALE_MIN)) / (SCALE_MAX - SCALE_MIN) * 100).toFixed(2) + "%";
+    return `<article class="tier">
+      <div class="head"><h3>${esc(t.name)}</h3><span class="pill ${fc}">${fl}</span></div>
+      <div class="range">${eur(t.min)}–${eur(t.max)}<span class="small muted"> / ay</span></div>
+      <div>
+        <div class="bar" role="img" aria-label="Fiyat aralığı ${eur(t.min)}–${eur(t.max)}, bütçe ${eur(S.budget)}">
+          <div class="seg" style="left:${pct(t.min)};width:${w}"></div>
+          <div class="mark" style="left:${pct(S.budget)}"></div>
+        </div>
+        <div class="scale" aria-hidden="true"><span>€500</span><span>€1.500</span><span>€2.500</span></div>
+      </div>
+      <dl class="kv">
+        <dt>Kim</dt><dd>${esc(t.who)}</dd>
+        <dt>Fiyat</dt><dd>${esc(t.price)}</dd>
+        <dt>Erişim</dt><dd>${esc(t.access)}</dd>
+        <dt>Şans</dt><dd><span class="pill ${t.oddsCls}">${esc(t.odds)}</span></dd>
+      </dl>
+      <p class="small muted">${esc(t.note)}</p>
+    </article>`;
+  }).join("");
+}
+
+/* ---------- Platforms ---------- */
+function platforms(){
+  const c = CITIES[S.city], b = S.budget, m2 = S.minM2;
+  let par = "https://www.pararius.com/apartments/" + c.pararius;
+  if (S.studioOnly) par += "/studio";
+  par += "/0-" + b;
+  if (S.furn === "furnished") par += "/furnished";
+  if (S.furn === "upholstered") par += "/upholstered";
+  if (m2 > 0) par += "/" + m2 + "m2";
+  let fun = "https://www.funda.nl/zoeken/huur?selected_area=" + encodeURIComponent(JSON.stringify([c.funda]))
+          + "&price=" + encodeURIComponent('"0-' + b + '"') + "&object_type=" + encodeURIComponent('["apartment"]');
+  if (m2 > 0) fun += "&floor_area=" + encodeURIComponent('"' + m2 + '-"');
+  const furnLabel = S.furn === "any" ? "eşya: fark etmez" : "eşya";
+  return [
+    { name:"Pararius", kind:"Ajans ilanları", url:par, base:"https://www.pararius.com/apartments/" + c.pararius,
+      chips:[["fiyat ≤ " + eur(b), true], ["m² ≥ " + m2, m2 > 0], [furnLabel, S.furn !== "any"], ["tip: studio", S.studioOnly]],
+      note:"En büyük ilan toplayıcı. Çoğu ilan emlak ajanslarından. Birçok stüdyo \"studio\" değil \"apartment\" olarak listeleniyor; filtreyi kapalı tutmak daha çok sonuç verir." },
+    { name:"Funda", kind:"Ajans ilanları", url:fun, base:"https://www.funda.nl/zoeken/huur?selected_area=" + encodeURIComponent(JSON.stringify([c.funda])),
+      chips:[["fiyat ≤ " + eur(b), true], ["m² ≥ " + m2, m2 > 0], ["tip: daire", true], ["eşya: sitede seç", false]],
+      note:"Pararius ile büyük ölçüde örtüşür ama bazı ajanslar yalnız burada ilan verir. Bildirim (alert) kurmak için ücretsiz hesap yeterli." },
+    { name:"Kamernet", kind:"Özel ev sahipleri", url:"https://kamernet.nl/en/for-rent/studio-" + c.kamernet, base:null,
+      chips:[["tip: studio", true], ["fiyat: sitede seç", false], ["m²: sitede seç", false]],
+      note:"Kendi verisine göre Amsterdam stüdyo ortalaması ~€1.143; birçok ilan başka yerde yok. Ev sahibine yazmak ücretli üyelik isteyebilir. Özel ev sahibi = dolandırıcılık riski daha yüksek." },
+    { name:"Huurwoningen.nl", kind:"Ajans + özel", url:"https://www.huurwoningen.nl/en/studio/huren/" + c.hw + "/", base:null,
+      chips:[["tip: studio", true], ["fiyat: sitede seç", false], ["m²: sitede seç", false]],
+      note:"Ek ilan kaynağı; semt bazında ortalama stüdyo kiralarını da gösteriyor." },
+    { name:"HousingAnywhere", kind:"Uluslararası, uzaktan kiralama", url:"https://housinganywhere.com/s/" + c.ha + "--Netherlands/studio-for-rent", base:"https://housinganywhere.com/s/" + c.ha + "--Netherlands/student-accommodation",
+      baseLabel:"Öğrenci konutları",
+      chips:[["tip: studio", true], ["fiyat: sitede seç", false], ["tarih: sitede seç", false]],
+      note:"Kirayı ev sahibine taşınmadan 48 saat sonra aktararak koruma sağlıyor; kiracıdan hizmet bedeli alınır. Stüdyo fiyatları yüksek (aramada ~€1.700–2.400)." },
+    { name:"ROOM.nl", kind:"Kâr amacı gütmeyen öğrenci konutu", url:"https://www.room.nl/", base:null,
+      chips:[["kayıt gerekir", false], ["kura ilanları", false]],
+      note:"Filtreli link yok; giriş yapıp \"studio\" ve kura (loting) ilanlarını filtreleyin. Kayıt süresi bugünden itibaren birikir." }
+  ];
+}
+function renderPlatforms(){
+  $("#plats").innerHTML = platforms().map(p => `<article class="plat">
+    <div class="head"><h3>${esc(p.name)}</h3><span class="small muted">${esc(p.kind)}</span></div>
+    <div class="chips">${p.chips.map(([l,on]) => `<span class="chip${on ? " on" : ""}">${esc(l)}</span>`).join("")}</div>
+    <p class="small">${esc(p.note)}</p>
+    <div style="display:grid;gap:6px">
+      <div class="go">
+        <a class="btn" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Sonuçları aç ↗</a>
+        ${p.base ? `<a class="btn ghost small" href="${esc(p.base)}" target="_blank" rel="noopener noreferrer">${esc(p.baseLabel || "Filtresiz aç")} ↗</a>` : ""}
+      </div>
+      <span class="url">${esc(p.url)}</span>
+    </div>
+  </article>`).join("");
+}
+
+/* ---------- Providers ---------- */
+let pFilter = "all";
+$("#p-filter").addEventListener("click", e => {
+  const b = e.target.closest("button[data-f]"); if (!b) return;
+  pFilter = b.dataset.f;
+  $("#p-filter").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  renderProviders();
+});
+$("#p-hideclosed").addEventListener("change", renderProviders);
+function provFit(p){
+  if (p.closed) return ["Uygun değil","bad"];
+  if (p.min == null) return ["Fiyat bilinmiyor",""];
+  if ((p.max || p.min) <= S.budget) return ["Bütçeye uygun","good"];
+  if (p.min <= S.budget) return ["Kısmen","warn"];
+  return ["Bütçe üstü","bad"];
+}
+function renderProviders(){
+  const hide = $("#p-hideclosed").checked;
+  const list = PROVIDERS.filter(p => {
+    if (hide && (p.closed || p.school)) return false;
+    if (pFilter === "fit") return !p.closed && p.min != null && p.min <= S.budget;
+    if (pFilter === "reg" || pFilter === "com") return p.cat === pFilter;
+    return true;
+  }).sort((a,b) => ((a.closed ? 1 : 0) - (b.closed ? 1 : 0)) ||((a.min == null ? 1e5 : a.min) - (b.min == null ? 1e5 : b.min)));
+  if (!list.length){ $("#provs").innerHTML = `<div class="empty">Bu filtreye uyan sağlayıcı yok. Bütçeyi artırın ya da "Tümü"ne dönün.</div>`; return; }
+  $("#provs").innerHTML = list.map(p => {
+    const [fl, fc] = provFit(p);
+    const idx = PROVIDERS.indexOf(p);
+    return `<article class="prov${p.closed ? " closed" : ""}">
+      <div class="head">
+        <div style="min-width:0"><h3>${esc(p.name)}</h3><div class="area">${esc(p.area)}</div></div>
+        <span class="pill ${fc}">${esc(fl)}</span>
+      </div>
+      <div class="price">${esc(p.price)}${p.est ? ' <span class="pill">tahmini</span>' : ""}</div>
+      <dl class="kv">
+        <dt>Boyut</dt><dd>${esc(p.size)}</dd>
+        <dt>Erişim</dt><dd>${esc(p.access)}</dd>
+        <dt>Dahil</dt><dd>${esc(p.incl)}</dd>
+        <dt>Durum</dt><dd><span class="pill ${p.status.cls}">${esc(p.status.t)}</span></dd>
+      </dl>
+      <p class="note">${esc(p.note)}</p>
+      <div class="foot">
+        <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.linkLabel || "Siteye git")} ↗</a>
+        <span class="small muted">Kaynak: ${esc(p.src)}</span>
+        ${p.closed ? "" : `<button type="button" class="btn ghost small" data-track="${idx}">+ Takibe ekle</button>`}
+      </div>
+    </article>`;
+  }).join("");
+}
+$("#provs").addEventListener("click", e => {
+  const b = e.target.closest("button[data-track]"); if (!b) return;
+  const p = PROVIDERS[+b.dataset.track]; if (!p) return;
+  const sizeNum = /m²/.test(p.size) ? parseInt((p.size.match(/\d+/) || [""])[0], 10) : NaN;
+  addRow({ name:p.name, url:p.url, rent: p.min || null, m2: isNaN(sizeNum) ? null : sizeNum,
+           status: p.cat === "reg" ? "yapilacak" : "izleniyor", due:"", note:p.status.t });
+});
+
+/* ---------- Timeline ---------- */
+function steps(){
+  const mv = moveDate(), now = today0();
+  return [
+    { t:"ROOM.nl'ye kayıt ol, kura ilanlarına her hafta başvur", from:now, to:addMonths(mv,-1),
+      d:"Kayıt süresi bugünden itibaren birikir. Bu yıl kayıt süresiyle stüdyo almak zor; asıl fırsat kura (loting) ilanları. Kayıt yıllarca geçerli, sonraki yıllar için de işe yarar." },
+    { t:"Pararius, Funda, Kamernet'te arama alarmı kur", from:now, to:addMonths(mv,-3),
+      d:"Şimdiki ilanlar bu taşınma için erken. Ama hangi fiyata ne çıktığını ve ilanların kaç saatte kapandığını görmek, yazın hızlı karar vermeyi sağlar." },
+    { t:"Ticari binaların rezervasyon açılışlarını kolla", from:addMonths(mv,-9), to:addMonths(mv,-4),
+      d:"Açılış tarihleri bina ve yıla göre değişiyor; bültenlerine kaydolun, e-postayla sorun. The Social Hub West 2026–27 için dolmuş durumda." },
+    { t:"Student Experience Amstel / NDSM kuralarına katıl", from:addMonths(mv,-6), to:addMonths(mv,-2),
+      d:"Bu iki bina otomatik kura kullanıyor ve kayıtlı öğrenci belgesi istiyor. Kura tarihlerini sitelerinden doğrulayın." },
+    { t:"Mevcut kira sözleşmesini kontrol et", from:addMonths(mv,-6), to:addMonths(mv,-3),
+      d:"Bitiş tarihi, kiracı ihbar süresi (genelde ödeme periyodu kadar: en az 1, en çok 3 ay) ve iki kiranın çakışacağı ay." },
+    { t:"Başvuru dosyasını hazırla", from:addMonths(mv,-4), to:addMonths(mv,-2),
+      d:"Pasaport, 2027–28 öğrenci belgesi (Studielink yeniden kaydından sonra), veli garantör gelir belgesi ve İngilizce çevirisi, banka dökümü, mevcut ev sahibinden referans. Tek PDF, aynı saat içinde gönderilebilir halde." },
+    { t:"Serbest piyasada yoğun arama", from:addDays(mv,-70), to:addDays(mv,-7),
+      d:"İlanlar genelde taşınmadan 2–8 hafta önce çıkar ve hızlı kapanır. Günde iki kez kontrol, aynı saat içinde yanıt; görüntülemeye video ile bile olsa mutlaka katılın." },
+    { t:"Taşın, 5 gün içinde belediyeye adres kaydı (BRP)", from:mv, to:addDays(mv,5),
+      d:"Adres kaydı yasal zorunluluk; huurtoeslag ve diğer resmi işlemler buna bağlı." }
+  ].sort((a,b) => a.from - b.from);
+}
+function renderTimeline(){
+  const now = today0();
+  $("#track").innerHTML = steps().map(s => {
+    const st = now > s.to ? "done" : (now >= s.from ? "now" : "next");
+    const pl = st === "done" ? `<span class="pill">Geçti</span>` : st === "now" ? `<span class="pill now">Şimdi</span>` : `<span class="pill info">Sırada</span>`;
+    const when = (s.from <= now && st !== "done") ? "Bugün → " + fmtM(s.to) : fmtM(s.from) + " → " + fmtM(s.to);
+    return `<li class="${st}">
+      <div class="when">${esc(when)}</div>
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h3>${esc(s.t)}</h3>${pl}</div><p class="muted">${esc(s.d)}</p></div>
+    </li>`;
+  }).join("");
+}
+
+/* ---------- Listing checker ---------- */
+const CAP_MID_2026 = 1228.07;      // Wet betaalbare huur: 186 WWS puanı üst sınırı, 2026
+const PARARIUS_AMS_M2 = 28.68;     // Pararius Q4 2025, Amsterdam serbest piyasa ortalaması
+const RULES = [
+  { re:/western union|moneygram|crypto|bitcoin|gift ?card|hediye kart/i, lvl:"bad", t:"Olağan dışı ödeme yöntemi", d:"Western Union, MoneyGram, kripto veya hediye kartı ile ödeme isteyen gerçek ev sahibi neredeyse yoktur." },
+  { re:/abroad|overseas|out of the country|buitenland|yurt ?d[ıi]ş[ıi]/i, lvl:"bad", t:"Ev sahibi yurt dışında", d:"\"Yurt dışındayım, gösteremem\" en bilinen dolandırıcılık kalıbı." },
+  { re:/before (the )?viewing|without (a )?viewing|viewing is not possible|keys? (by|via|through) (post|mail|courier|dhl)|send (you )?the keys|pay (the )?deposit (first|to reserve)|reservation fee/i, lvl:"bad", t:"Görmeden ödeme veya anahtar kargo", d:"Ev görülmeden ve sözleşme imzalanmadan para gönderilmez. Anahtarın postayla gelmesi tipik dolandırıcılık." },
+  { re:/no registration|registration (is )?not (possible|allowed)|without registration|geen inschrijving|inschrijven (is )?niet|kayıt (yok|yapılamaz|mümkün değil)/i, lvl:"bad", t:"Adres kaydı yasaklanıyor", d:"Yaşanılan adrese kayıt (BRP) yasal zorunluluk. \"Kayıt yok\" ya kaçak alt kiralama ya da dolandırıcılıktır." },
+  { re:/airbnb/i, lvl:"warn", t:"Airbnb üzerinden ödeme", d:"Sahte Airbnb ödeme sayfalarıyla yapılan dolandırıcılık yaygın; uzun dönem kiralama Airbnb'den ödenmez." },
+  { re:/passport|paspoort|pasaport|copy of (your )?id|id copy|kopie id/i, lvl:"warn", t:"Kimlik kopyası isteniyor", d:"Ev sahibini doğrulamadan kimlik göndermeyin. Göndermeniz gerekirse devletin KopieID uygulamasıyla filigranlı, BSN'si gizli kopya kullanın." },
+  { re:/whatsapp only|only (via )?whatsapp|sadece whatsapp/i, lvl:"warn", t:"Yalnız WhatsApp iletişimi", d:"Platform dışına çekmek, platformun korumasından çıkarır." },
+  { re:/urgent|acil|first (one|person) to pay|many (people|applicants) (are )?interested/i, lvl:"warn", t:"Aceleye getirme", d:"Baskı kurarak doğrulama yapmanızı engellemeye çalışan dil." }
+];
+function checkListing(){
+  const rent = parseFloat($("#c-rent").value) || 0, m2 = parseFloat($("#c-m2").value) || 0, dep = parseFloat($("#c-dep").value) || 0;
+  const incl = $("#c-incl").value, reg = $("#c-reg").value, self = $("#c-self").value;
+  const text = $("#c-text").value || "";
+  const flags = [];
+  const perM2 = rent && m2 ? rent / m2 : null;
+
+  if (rent && rent < 700) flags.push({ lvl:"warn", t:"Fiyat şüpheli derecede düşük", d:"Kurumsal öğrenci konutu (DUWO, Student Experience vb.) değilse, Amsterdam'da bu fiyata kendine ait stüdyo çok nadirdir. Dolandırıcılık işareti olabilir." });
+  if (rent && dep){
+    if (dep > rent * 2) flags.push({ lvl:"bad", t:"Depozito yasal sınırın üzerinde", d:`Depozito en fazla 2 aylık kale huur olabilir (Goed verhuurderschap). Bu ilanda ${(dep/rent).toFixed(1).replace(".", ",")} aylık isteniyor.` });
+    else if (incl === "all" && dep > rent * 1.6) flags.push({ lvl:"warn", t:"Depozitoyu kale huur üzerinden hesaplayın", d:"Kira faturaları içeriyorsa, sınır faturasız kira (kale huur) üzerinden 2 aydır. Faturasız kirayı sorun." });
+  }
+  if (rent && m2){
+    if (rent > CAP_MID_2026 && m2 <= 40) flags.push({ lvl:"warn", t:"Yasal kira tavanını kontrol edin", d:`Küçük stüdyolar puan sisteminde (WWS) çoğunlukla 186 puanın altında kalır. O zaman yasal azami kira geçerlidir ve 2026'da bu segmentin üst sınırı ${eur(CAP_MID_2026)} kale huur. Eşya ve servis bedeli ayrı hesaplanır. Huurcommissie'nin kira kontrol aracıyla bakın.` });
+    else if (rent <= CAP_MID_2026) flags.push({ lvl:"info", t:"Düzenlenmiş segmentte", d:"Bu kira, puan sistemine tabi aralıkta. Konutun puanı düşükse yasal azami kira daha da düşük olabilir; Huurcommissie aracıyla kontrol edin." });
+  }
+  if (reg === "no") flags.push({ lvl:"bad", t:"Adres kaydı yapılamıyor", d:"Kayıt yasal zorunluluk. Kayıt olmadan huurtoeslag alınamaz, banka ve belediye işlemleri aksar." });
+  if (reg === "yes") flags.push({ lvl:"good", t:"Adres kaydı mümkün", d:"Sözleşmede yazılı olduğundan emin olun." });
+  if (self === "no") flags.push({ lvl:"warn", t:"Kendine ait değil (onzelfstandig)", d:"Ortak mutfak veya tuvalet varsa bu bir odadır: \"stüdyo\" hedefini karşılamaz ve huurtoeslag'a uygun değildir." });
+  if (self === "yes") flags.push({ lvl:"good", t:"Kendine ait konut (zelfstandig)", d:"18 yaş üstü öğrenci huurtoeslag'a başvurabilir. 2026'da azami kira şartı kalktı; 21 yaş altına daha düşük sınır (€498,20) uygulanıyor. Gelir ve oturum durumuna göre Belastingdienst'te kontrol edin." });
+
+  let hits = 0;
+  RULES.forEach(r => { if (r.re.test(text)) { flags.push({ lvl:r.lvl, t:r.t, d:r.d }); hits++; } });
+  if (text.trim().length > 40 && !hits) flags.push({ lvl:"good", t:"Metinde bilinen dolandırıcılık kalıbı yok", d:"Bu bir garanti değildir. Ev sahibini doğrulayın ve görmeden para göndermeyin." });
+
+  const order = { bad:0, warn:1, info:2, good:3 };
+  flags.sort((a,b) => order[a.lvl] - order[b.lvl]);
+  const label = { bad:"Ciddi", warn:"Dikkat", info:"Bilgi", good:"İyi" };
+  $("#c-flags").innerHTML = flags.length
+    ? flags.map(f => `<li><span class="pill ${f.lvl}">${label[f.lvl]}</span><b>${esc(f.t)}</b><span class="d">${esc(f.d)}</span></li>`).join("")
+    : `<li class="muted small">Kira, m² veya ilan metni girin.</li>`;
+
+  const box = $("#c-m2box");
+  if (perM2){
+    const max = 80, p = v => Math.min(100, v / max * 100).toFixed(2) + "%";
+    box.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
+        <span class="eyebrow">m² başına kira</span><span class="num" style="font-size:20px">€${perM2.toFixed(1).replace(".", ",")}</span></div>
+      <div class="bar" role="img" aria-label="Bu ilan m² başına €${perM2.toFixed(1)}, Amsterdam ortalaması €${PARARIUS_AMS_M2}">
+        <div class="seg" style="left:0;width:${p(PARARIUS_AMS_M2)};opacity:.3"></div>
+        <div class="mark" style="left:${p(perM2)}"></div>
+      </div>
+      <div class="scale"><span>€0</span><span>€40</span><span>€80/m²</span></div>
+      <p class="small muted">Gölgeli alan Pararius'un Amsterdam ortalamasına kadar uzanıyor (Q4 2025, €28,68/m², tüm serbest kiralık konutlar). Küçük stüdyolarda m² fiyatı doğal olarak daha yüksektir; kıyas kaba bir göstergedir.</p>`;
+  } else box.innerHTML = "";
+  return { rent, m2, dep, incl, reg, self, text, perM2, flags };
+}
+$("#c-form").addEventListener("input", checkListing);
+$("#c-form").addEventListener("submit", e => e.preventDefault());
+
+/* Claude değerlendirmesi (sample capability) */
+let sampleFn = null, aiCtrl = null;
+const canUse = !!(window.claude && typeof window.claude.use === "function");
+function fmtAI(t){
+  return esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/^#{1,4}\s*(.+)$/gm, "<strong>$1</strong>");
+}
+function setAIUnavailable(msg){
+  $("#ai-btn").disabled = true; $("#ai-btn").hidden = true;
+  $("#ai-note").textContent = msg;
+}
+if (!canUse) setAIUnavailable("Claude değerlendirmesi yalnız claude.ai içinde çalışır; otomatik kontroller yine geçerli.");
+else {
+  Promise.resolve().then(() => window.claude.use("sample")).then(fn => {
+    if (!fn){ setAIUnavailable("Bu görünümde Claude'a sorma kullanılamıyor; otomatik kontroller yine geçerli."); return; }
+    sampleFn = fn; $("#ai-btn").disabled = false;
+    $("#ai-note").textContent = "İlk kullanımda izin istenir. Yanıt sizin Claude hesabınızla üretilir.";
+  }).catch(() => setAIUnavailable("Claude'a sorma şu an kullanılamıyor."));
+}
+$("#ai-btn").addEventListener("click", async () => {
+  if (!sampleFn) return;
+  const r = checkListing();
+  const auto = r.flags.map(f => `- [${f.lvl}] ${f.t}`).join("\n") || "- yok";
+  const prompt = `Sen Amsterdam kiralık konut piyasasını bilen, temkinli bir danışmansın. Aşağıdaki ilanı Türkiye'den bir veli ve Amsterdam'da okuyan kızı için değerlendir. Türkçe yaz. Bilmediğin şeyi uydurma; emin olmadığın yasal ayrıntılarda "resmi kaynaktan kontrol edin" de.
+
+Hedef: tek kişilik, kendine ait (zelfstandig) stüdyo, taşınma ${fmtD(moveDate())}, aylık bütçe ${eur(S.budget)} her şey dahil.
+
+Bilinen kurallar (2026): depozito en fazla 2 aylık kale huur; 186 WWS puanına kadar konutlarda yasal azami kira geçerli ve 2026'da bu segmentin üst sınırı €1.228,07 kale huur; yaşanılan adrese kayıt (BRP) yasal zorunluluk; görmeden ödeme, yurt dışındaki ev sahibi, Western Union/kripto ödeme, anahtarın postayla gelmesi bilinen dolandırıcılık işaretleri. Amsterdam serbest piyasa ortalaması Q4 2025'te €28,68/m² (tüm konutlar).
+
+İlan verileri: kira ${r.rent ? eur(r.rent) : "belirtilmemiş"} (${{kale:"yalnız kira",all:"faturalar dahil",unknown:"neyi kapsadığı belirtilmemiş"}[r.incl]}), alan ${r.m2 || "?"} m², depozito ${r.dep ? eur(r.dep) : "belirtilmemiş"}, adres kaydı: ${{yes:"mümkün",no:"mümkün değil",unknown:"belirtilmemiş"}[r.reg]}, kendine ait: ${{yes:"evet",no:"hayır",unknown:"belirtilmemiş"}[r.self]}.
+Sayfanın otomatik kontrolleri:
+${auto}
+
+İlan metni:
+"""
+${r.text.slice(0, 6000)}
+"""
+
+Biçim (en fazla ~250 kelime, düz metin, başlıkları **kalın** yaz):
+**Karar:** Düşük / Orta / Yüksek risk ve tek cümle neden.
+**Kırmızı bayraklar:** madde madde.
+**Fiyat:** €/m², ne dahil, bütçeyle ilişkisi.
+**Yasal kontroller:** depozito, kira tavanı, adres kaydı.
+**Ev sahibine sorulacak 5 soru:** İngilizce, her birinin yanında kısa Türkçe karşılığı.`;
+  const out = $("#ai-out"), btn = $("#ai-btn"), stop = $("#ai-stop");
+  if (aiCtrl) aiCtrl.abort();
+  aiCtrl = new AbortController();
+  out.hidden = false; out.textContent = "Düşünüyor…";
+  btn.disabled = true; stop.hidden = false;
+  try {
+    const res = await sampleFn(prompt, { signal: aiCtrl.signal, modelTier: "default",
+      onText: ({ text }) => { out.innerHTML = fmtAI(text); } });
+    out.innerHTML = fmtAI(res.text) + (res.truncated ? "\n\n<em>(Yanıt kısaltıldı.)</em>" : "");
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "cancelled") out.innerHTML = (e.text ? fmtAI(e.text) + "\n\n" : "") + "<em>Durduruldu.</em>";
+    else if (code === "not_granted") { out.textContent = "Claude'a sorma izni verilmedi. Otomatik kontroller yine geçerli."; setAIUnavailable("İzin verilmedi."); }
+    else if (code === "rate_limited") out.textContent = "Kısa sürede çok istek gönderildi. Birkaç dakika sonra tekrar deneyin.";
+    else if (code === "refused") out.textContent = "Claude bu metni değerlendirmedi. Metni kısaltıp yalnız ilanı bırakarak tekrar deneyin.";
+    else if (code === "session_expired") out.textContent = "Oturum süresi doldu. Sayfayı yenileyip tekrar deneyin.";
+    else out.innerHTML = (e && e.text ? fmtAI(e.text) + "\n\n" : "") + "<em>Yanıt tamamlanamadı. Tekrar deneyin.</em>";
+  } finally {
+    btn.disabled = !sampleFn; stop.hidden = true; aiCtrl = null;
+  }
+});
+$("#ai-stop").addEventListener("click", () => { if (aiCtrl) aiCtrl.abort(); });
+
+/* ---------- Tracker ---------- */
+const T = { mode:"loading", db:null, rows:[], confirmId:null };
+$("#t-status").innerHTML = STATUSES.map(s => `<option value="${s[0]}">${esc(s[1])}</option>`).join("");
+$("#t-status").value = "izleniyor";
+const tLine = msg => { $("#t-status-line").textContent = msg || ""; };
+function writeErr(e){
+  const c = e && e.code;
+  if (c === "not_granted") return "Bu listeye yazma izniniz yok. Sahibinden düzenleme izni isteyin.";
+  if (c === "quota_exceeded") return "Liste kapasitesi doldu; eski satırları silin.";
+  return "Kaydedilemedi. Bağlantıyı kontrol edip tekrar deneyin.";
+}
+function useLocal(reason){
+  T.mode = "local"; T.rows = store.get("ams-tracker", []);
+  $("#t-where").textContent = reason || "Bu liste yalnız bu tarayıcıda saklanıyor.";
+  renderTracker();
+}
+function saveLocal(){ store.set("ams-tracker", T.rows); }
+async function initTracker(){
+  if (!canUse){ useLocal("Bu liste yalnız bu tarayıcıda saklanıyor (claude.ai dışında açıldı)."); return; }
+  let db = null;
+  try { db = await window.claude.use("db"); } catch(e){ db = null; }
+  if (!db){ useLocal("Ortak kayıt bu görünümde kullanılamıyor; liste yalnız bu tarayıcıda saklanıyor."); return; }
+  T.db = db; T.mode = "db";
+  $("#t-where").textContent = "Liste bu sayfayla birlikte saklanıyor. Sayfayı paylaştığınız ve düzenleme izni verdiğiniz kişiler (ör. kızınız) aynı listeyi görür ve günceller.";
+  const timer = setTimeout(() => tLine("Kayıtlara henüz ulaşılamıyor; bağlantı gelince liste kendiliğinden güncellenir."), 10000);
+  db.collection("shortlist").onSnapshot(snap => {
+    if (!snap.metadata.fromCache){ clearTimeout(timer); if ($("#t-status-line").textContent.indexOf("ulaşılamıyor") >= 0) tLine(""); }
+    T.rows = snap.docs.map(d => Object.assign({ id:d.id }, d.data()));
+    renderTracker();
+  }, err => { clearTimeout(timer); tLine("Liste okunamadı (" + (err && err.code || "hata") + "). Sayfayı daha sonra yeniden açın."); });
+}
+async function addRow(row){
+  const data = {
+    name: String(row.name || "").slice(0, 200), url: String(row.url || "").slice(0, 500),
+    rent: row.rent ? Number(row.rent) : null, m2: row.m2 ? Number(row.m2) : null,
+    status: STATUS_MAP[row.status] ? row.status : "izleniyor", due: row.due || "",
+    note: String(row.note || "").slice(0, 500), createdAt: Date.now()
+  };
+  if (!data.name) return false;
+  if (T.mode === "db"){
+    try { await T.db.collection("shortlist").add(data); toast("Takip listesine eklendi"); return true; }
+    catch(e){ tLine(writeErr(e)); return false; }
+  }
+  if (T.mode === "local"){
+    data.id = "l" + data.createdAt + Math.random().toString(36).slice(2, 6);
+    T.rows.push(data); saveLocal(); renderTracker(); toast("Takip listesine eklendi"); return true;
+  }
+  tLine("Liste henüz yüklenmedi; birkaç saniye sonra tekrar deneyin."); return false;
+}
+async function updateRow(id, patch){
+  if (T.mode === "db"){ try { await T.db.doc("shortlist/" + id).update(patch); } catch(e){ tLine(writeErr(e)); } return; }
+  const r = T.rows.find(x => x.id === id); if (r){ Object.assign(r, patch); saveLocal(); renderTracker(); }
+}
+async function deleteRow(id){
+  if (T.mode === "db"){ try { await T.db.doc("shortlist/" + id).delete(); } catch(e){ tLine(writeErr(e)); } return; }
+  T.rows = T.rows.filter(x => x.id !== id); saveLocal(); renderTracker();
+}
+function safeUrl(u){ return /^https?:\/\//i.test(u || "") ? u : ""; }
+function renderTracker(){
+  const rows = T.rows.slice().sort((a,b) => {
+    const da = a.due || "9999", db_ = b.due || "9999";
+    return da === db_ ? (b.createdAt || 0) - (a.createdAt || 0) : (da < db_ ? -1 : 1);
+  });
+  const counts = {};
+  rows.forEach(r => { counts[r.status] = (counts[r.status] || 0) + 1; });
+  $("#t-counts").innerHTML = rows.length
+    ? STATUSES.filter(s => counts[s[0]]).map(s => `<span class="pill ${s[2]}">${esc(s[1])}: ${counts[s[0]]}</span>`).join("")
+    : "";
+  if (!rows.length){
+    $("#t-list").innerHTML = `<div class="empty">Henüz kayıt yok. Yukarıdaki formla bir ilan ekleyin ya da Sağlayıcılar bölümünde "+ Takibe ekle"ye basın.</div>`;
+    return;
+  }
+  const now = today0();
+  $("#t-list").innerHTML = rows.map(r => {
+    const u = safeUrl(r.url);
+    const name = u ? `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(r.name)} ↗</a>` : esc(r.name);
+    const facts = [r.rent ? eur(r.rent) + "/ay" : "", r.m2 ? r.m2 + " m²" : "", (r.rent && r.m2) ? "€" + (r.rent / r.m2).toFixed(0) + "/m²" : ""].filter(Boolean).join(" · ");
+    let due = "";
+    if (r.due){
+      const [y,m,d] = r.due.split("-").map(Number), dd = new Date(y, m-1, d), left = Math.round((dd - now) / 86400000);
+      const cls = left < 0 ? "bad" : left <= 7 ? "warn" : "";
+      due = `<span class="pill ${cls}">${esc(fmtD(dd))}${left >= 0 ? " · " + left + " gün" : " · geçti"}</span>`;
+    }
+    const confirming = T.confirmId === r.id;
+    return `<div class="trow" data-id="${esc(r.id)}">
+      <div style="min-width:0"><div class="name">${name}</div><div class="meta facts">${esc(facts) || "&nbsp;"}</div></div>
+      <div>${due}</div>
+      <select aria-label="Durum: ${esc(r.name)}" data-act="status">${STATUSES.map(s => `<option value="${s[0]}"${s[0] === r.status ? " selected" : ""}>${esc(s[1])}</option>`).join("")}</select>
+      <button type="button" class="btn ${confirming ? "danger" : "ghost"} small" data-act="del">${confirming ? "Silmeyi onayla" : "Sil"}</button>
+      ${r.note ? `<div class="note">${esc(r.note)}</div>` : ""}
+    </div>`;
+  }).join("");
+}
+$("#t-list").addEventListener("change", e => {
+  const sel = e.target.closest("select[data-act=status]"); if (!sel) return;
+  const id = sel.closest(".trow").dataset.id;
+  updateRow(id, { status: sel.value });
+});
+$("#t-list").addEventListener("click", e => {
+  const b = e.target.closest("button[data-act=del]"); if (!b) return;
+  const id = b.closest(".trow").dataset.id;
+  if (T.confirmId === id){ T.confirmId = null; deleteRow(id); }
+  else { T.confirmId = id; renderTracker(); setTimeout(() => { if (T.confirmId === id){ T.confirmId = null; renderTracker(); } }, 4000); }
+});
+$("#t-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const ok = await addRow({ name:$("#t-name").value.trim(), url:$("#t-url").value.trim(), rent:$("#t-rent").value, m2:$("#t-m2").value,
+                            status:$("#t-status").value, due:$("#t-due").value, note:$("#t-note").value.trim() });
+  if (ok){ ["#t-name","#t-url","#t-rent","#t-m2","#t-due","#t-note"].forEach(s => { $(s).value = ""; }); $("#t-status").value = "izleniyor"; }
+});
+
+/* ---------- Sources ---------- */
+$("#sources").innerHTML = SOURCES.map(([t,u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("");
+
+/* ---------- Boot ---------- */
+function renderAll(){ renderSummary(); renderTiers(); renderPlatforms(); renderProviders(); renderTimeline(); }
+renderAll();
+checkListing();
+renderTracker();
+initTracker();
+})();
+</script>
