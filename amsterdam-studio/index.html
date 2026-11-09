@@ -295,7 +295,7 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13px}
         <button type="button" data-f="all" aria-pressed="true">Tümü</button>
         <button type="button" data-f="fit" aria-pressed="false">Bütçeye uyanlar</button>
         <button type="button" data-f="reg" aria-pressed="false">Kura / kayıt</button>
-        <button type="button" data-f="com" aria-pressed="false">Rezervasyon</button>
+        <button type="button" data-f="com" aria-pressed="false">Doğrudan kiralama</button>
       </div>
       <label class="check" for="p-hideclosed" style="padding:0"><input type="checkbox" id="p-hideclosed"> Uygun olmayanları gizle</label>
     </div>
@@ -417,13 +417,13 @@ const TIERS = [
     odds:"Düşük", oddsCls:"bad",
     note:"En ucuz yol, ama şansa bağlı. Amsterdam'da kayıt süresiyle oda almak yıllar sürüyor; asıl fırsat kura ilanları." },
   { key:"com", name:"Ticari öğrenci binası", min:950, max:2100,
-    who:"OurDomain, Xior, The Social Hub, Student Experience Minervahaven",
+    who:"OurDomain, Xior, HiCondo, Holland2Stay, Plaza, The Social Hub, Student Experience Minervahaven",
     price:"Çoğunlukla eşyalı, faturalar dahil", access:"Rezervasyon, ilk gelen alır",
     odds:"Orta–yüksek, erken başvuruda", oddsCls:"good",
     note:"Dorm hissi vermeyen, kendine ait stüdyo + ortak alanlar. m² başına pahalı ve popüler binalar erken doluyor." },
-  { key:"pvt", name:"Serbest piyasa stüdyosu", min:1000, max:2200,
+  { key:"pvt", name:"Serbest piyasa stüdyosu", min:700, max:2200,
     who:"Pararius, Funda, Kamernet, Huurwoningen, HousingAnywhere",
-    price:"Kamernet ortalaması ~€1.143; ilanlar €900–2.200+", access:"İlan bazlı, taşınmadan 2–8 hafta önce",
+    price:"Kamernet ortalaması ~€1.143; Zuidoost'taki yeni komplekslerde €700'lü stüdyolar da var", access:"İlan bazlı, taşınmadan 2–8 hafta önce",
     odds:"Orta, yoğun rekabet", oddsCls:"warn",
     note:"En geniş seçenek, en yüksek dolandırıcılık riski. Görmeden ödeme ve \"adres kaydı yok\" şartı kabul edilmemeli." }
 ];
@@ -500,7 +500,49 @@ const PROVIDERS = [
     access:"Sitede kontrol et", incl:"Bulunamadı",
     status:{cls:"info", t:"Bilgi iste"},
     note:"Amsterdam'ın büyük kâr amacı gütmeyen öğrenci ev sahiplerinden. Güncel başvuru yolunu doğrulayamadık.",
-    url:"https://www.dekey.nl/", src:"dekey (guestcompass)" }
+    url:"https://www.dekey.nl/", src:"dekey (guestcompass)" },
+  { name:"HiCondo", area:"Amsterdam Zuidoost, Arena Boulevard yakını", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"300+ stüdyo, eşyasız",
+    access:"Doğrudan kiralama, en az 1 yıl", incl:"Eşya yok; mobilya size ait",
+    status:{cls:"bad", t:"Haz 2026: belediye kira indirimi emretti"},
+    note:"Belediye denetimi yüzlerce öğrenciden yasa dışı yüksek kira alındığını tespit etti; yüksek depozito ve belirsiz servis bedelleri de eleştirildi. Sonraki habere göre 350 kiracıdan yalnız 7'sine indirim yapıldı. Hâlâ bir seçenek olabilir, ama imzadan önce kirayı Huurcommissie aracıyla kontrol edin ve mobilya masrafını bütçeye ekleyin.",
+    url:"https://nltimes.nl/2026/06/30/amsterdam-orders-student-housing-landlord-lower-rents-illegal-overcharges-found", linkLabel:"Habere git", src:"NL Times, NH Nieuws, Wittenborg, Luntero" },
+  { name:"Holland2Stay", area:"Amsterdam: Buitenveldert, Java Eiland, Sloten", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"Örnek: 22 m², eşyalı, yalnız öğrenci",
+    access:"Doğrudan kiralama; gelir şartı var", incl:"Eşyalı",
+    status:{cls:"info", t:"İlanları izle"},
+    note:"Öğrenci ve genç profesyonellere eşyalı stüdyolar; bazıları yalnız öğrencilere. Mayıs 2026'dan beri Java Eiland ve Sloten'de 205 konutu da yönetiyor. Gelir şartının veli garantörlüğüyle karşılanıp karşılanmadığını sorun.",
+    url:"https://www.holland2stay.com/", src:"holland2stay.com, Wittenborg" },
+  { name:"Plaza (6 kompleks)", area:"Amsterdam: Zuidoost, Sloterdijk ve diğerleri", cat:"com", min:null, max:null,
+    price:"Fiyatlar kompleks sayfalarında", size:"Ör. Hillside 233 stüdyo, Two Sisters 599 stüdyo",
+    access:"Doğrudan kiralama; bildirim listesi", incl:"Komplekse göre eşyalı veya eşyasız",
+    status:{cls:"info", t:"Bildirime kaydol"},
+    note:"WASA Student Village (öğrenci, eşyalı), Hillside (Zuidoost, eşyasız), De Flier (eşyalı), Rijswijkstraat (eşyasız, çatı terası), Meibergdreef ve yakında açılacak Two Sisters (Sloterdijk, eşyalı). WASA sayfasında şu an boş yer görünmüyordu.",
+    url:"https://plaza.newnewnew.space/en/our-complexes/amsterdam", src:"plaza.newnewnew.space" },
+  { name:"Change=", area:"Amsterdam Zuidoost", cat:"com", min:null, max:null,
+    price:"Fiyat bulunamadı", size:"~600 daire (2017 duyurusu)",
+    access:"Doğrudan kiralama; yaş sınırı olabilir", incl:"Her şey dahil; özel banyo ve mutfak",
+    status:{cls:"info", t:"Öğrenci kabul ediyor mu, sor"},
+    note:"18–30 yaş arası çalışan gençlere yönelik bir konsept olarak duyurulmuştu; Wittenborg öğrencileri de kabul ettiğini yazıyor. Güncel bilgiyi doğrulayamadık; resmi sitenin change-is.com olduğu belirtiliyor.",
+    url:"https://www.capitalvalue.nl/en/news/change=-realises-600-apartments-in-amsterdam-zuidoost", linkLabel:"Kaynağa git", src:"Capital Value, Wittenborg" },
+  { name:"Sayhaey Spinoza", area:"Amsterdam Zuidoost, DUWO Spinoza kampüsü yanı", cat:"com", min:679, max:693,
+    price:"€679–693'ten", size:"~23 m² · 311 tek kişilik daire",
+    access:"İlan üzerinden; yaş ve gelir şartı olabilir", incl:"Bulunamadı",
+    status:{cls:"good", t:"Bütçeye uygun; şartları kontrol et"},
+    note:"Gençlere yönelik tek kişilik daireler. Bir ilanda 18–28 yaş ve asgari gelir şartı yazıyor, ama kaynaklar bu konuda çelişkili.",
+    url:"https://www.pararius.com/studio-for-rent/amsterdam/8e4cd475/dennenrodepad", linkLabel:"Örnek ilan", src:"Pararius, Huurwoningen" },
+  { name:"Elizabeth Cady Stantonplein stüdyoları", area:"Amsterdam Zuidoost (1102)", cat:"com", min:705, max:767,
+    price:"€705–767 + servis bedeli", size:"Stüdyo",
+    access:"Pararius ve Funda ilanları", incl:"Servis bedeli ayrı",
+    status:{cls:"good", t:"Bütçeye uygun; sokağa alarm kur"},
+    note:"İşletmecisini doğrulayamadık. Pararius ve Funda'da bu adresteki farklı dairelerden stüdyo ilanları çıkıyor; bu sokak için arama alarmı kurmak yeterli.",
+    url:"https://pararius.com/apartment-for-rent/amsterdam/872a61b3/elizabeth-cady-stantonplein", linkLabel:"Örnek ilan", src:"Pararius, Funda" },
+  { name:"Genç + statü sahibi karma kompleksler", area:"Amsterdam geneli (15 kompleks; ör. Stek Oost, Riekerhaven)", cat:"reg", min:null, max:null,
+    price:"Bulunamadı", size:"Bulunamadı",
+    access:"Doğrulanamadı", incl:"Bulunamadı",
+    status:{cls:"info", t:"Başvuru yolunu araştır"},
+    note:"Belediyenin gençlerle oturma izni almış mültecilerin birlikte yaşadığı 15 karma kompleksi var; Riekerhaven'da öğrenciler de kalıyordu. Yaş şartı ve ayrı bir başvuru süreci olabilir.",
+    url:"https://www.nhnieuws.nl/nieuws/311348/amsterdam-wil-andere-verdeling-jongeren-en-statushouders-in-grote-gemengd-wooncomplexen", linkLabel:"Habere git", src:"NH Nieuws" }
 ];
 
 const SOURCES = [
@@ -523,7 +565,16 @@ const SOURCES = [
   ["ASVA: UvA konutu yalnız ilk yıl", "https://asva.nl/the-situation-in-amsterdam/"],
   ["DutchNews (Haziran 2026): uluslararası öğrencilere dolandırıcılık uyarısı", "https://www.dutchnews.nl/2026/06/international-students-face-more-housing-fraud-union-warns/"],
   ["Huurcommissie", "https://www.huurcommissie.nl/"],
-  ["Fraudehelpdesk", "https://www.fraudehelpdesk.nl/"]
+  ["Fraudehelpdesk", "https://www.fraudehelpdesk.nl/"],
+  ["NL Times (Haz 2026): belediye HiCondo'ya kira indirimi emretti", "https://nltimes.nl/2026/06/30/amsterdam-orders-student-housing-landlord-lower-rents-illegal-overcharges-found"],
+  ["NH Nieuws: denetim sonrası 350 kiracıdan 7'sine indirim", "https://www.nhnieuws.nl/nieuws/363487/operatie-pels-strijd-tegen-huisjesmelkers-amsterdam"],
+  ["Wittenborg: Amsterdam konut sağlayıcıları (HiCondo, Change, Holland2Stay)", "https://www.wittenborg.eu/amsterdam-student-housing.htm"],
+  ["Holland2Stay: Java Eiland ve Sloten yönetimi", "https://www.holland2stay.com/nl/blog/amsterdam-java-eiland-sloten"],
+  ["Plaza: Amsterdam kompleksleri", "https://plaza.newnewnew.space/en/our-complexes/amsterdam"],
+  ["Capital Value: Change= Amsterdam Zuidoost", "https://www.capitalvalue.nl/en/news/change=-realises-600-apartments-in-amsterdam-zuidoost"],
+  ["Pararius: Sayhaey Spinoza ilanı", "https://www.pararius.com/studio-for-rent/amsterdam/8e4cd475/dennenrodepad"],
+  ["Pararius: Elizabeth Cady Stantonplein ilanı", "https://pararius.com/apartment-for-rent/amsterdam/872a61b3/elizabeth-cady-stantonplein"],
+  ["NH Nieuws: genç ve statü sahibi karma kompleksler", "https://www.nhnieuws.nl/nieuws/311348/amsterdam-wil-andere-verdeling-jongeren-en-statushouders-in-grote-gemengd-wooncomplexen"]
 ];
 
 const STATUSES = [
@@ -710,7 +761,7 @@ function renderProviders(){
       </dl>
       <p class="note">${esc(p.note)}</p>
       <div class="foot">
-        <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Siteye git ↗</a>
+        <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.linkLabel || "Siteye git")} ↗</a>
         <span class="small muted">Kaynak: ${esc(p.src)}</span>
         ${p.closed ? "" : `<button type="button" class="btn ghost small" data-track="${idx}">+ Takibe ekle</button>`}
       </div>
@@ -720,7 +771,7 @@ function renderProviders(){
 $("#provs").addEventListener("click", e => {
   const b = e.target.closest("button[data-track]"); if (!b) return;
   const p = PROVIDERS[+b.dataset.track]; if (!p) return;
-  const sizeNum = parseInt((p.size.match(/\d+/) || [""])[0], 10);
+  const sizeNum = /m²/.test(p.size) ? parseInt((p.size.match(/\d+/) || [""])[0], 10) : NaN;
   addRow({ name:p.name, url:p.url, rent: p.min || null, m2: isNaN(sizeNum) ? null : sizeNum,
            status: p.cat === "reg" ? "yapilacak" : "izleniyor", due:"", note:p.status.t });
 });
